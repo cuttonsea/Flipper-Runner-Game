@@ -10,7 +10,7 @@ To *flip* between two set A, B is that for any vertices $v \in A$ and $w \in B$:
 **Runner**, starting at the random vertex of $G_0$, runs along the edges of the graph $G_{i-1}$, knowing the flipped graph $G_i$.
 
 
-You are the **Fliiper**.
+You are the **Flipper**.
 **Flipper** wins if the **Runner** is isolated.
 
 It is know that **Flipper** must win this game if the game lasts sufficiently long.
@@ -25,5 +25,6 @@ Use the indices of vertices you have observed in the dispay shown.
 Declare each set of partitions by splitting these indices by comma(,).
 
 ## Step 3. Pick two sets of the partition you want to *flip*.
-
+Then Runner will move its position to one of the neighbor of its current position in $G_{i-1} which has the largest number of neighbors in $G_i$ automatically.
+But if Runner is stuck, You, the Flipper wins, and the game will terminate.
 
