@@ -7,6 +7,7 @@ For each turn, **flipper** gives k-partition on the vertex set of the initial gr
 To *flip* between two set A, B is that for any vertices $v \in A$ and $w \in B$:
 1. If there is an edge between $v$ and $w$, erase it.
 2. If trere is no edge between $v$ and $w$, add it.
+
 **Runner**, starting at the random vertex of $G_0$, runs along the edges of the graph $G_{i-1}$, knowing the flipped graph $G_i$.
 
 
