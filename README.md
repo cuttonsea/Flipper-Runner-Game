@@ -20,6 +20,7 @@ The Goal is to win **ASAP**.
 
 ## Step 1. Set a number of vertices of graph you want to play. (int)
 The first display will give you the initial graph with random edges.
+I recommend to start with vertices 4~6 for newbies to understand the game rules.
 
 ## Step 2. Give partition in three sets of the vertices.
 Use the indices of vertices you have observed in the dispay shown.
