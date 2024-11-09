@@ -4,7 +4,7 @@ Inspired by the Flip - width theory from the Graph Theory.
 ## Basic rule
 There are two roles, **Flipper** and **Runner**.
 For each turn, **flipper** gives k-partition on the vertex set of the initial graph $G_0$, and makes new graph $G_i$ by *flipping* bewteen two sets in the partition.
-To *flip* between two set A, B is that for any vertices $v \in A$ and $w \in B$:
+To *flip* between two set $A$, $B$ is that for any vertices $v \in A$ and $w \in B$:
 1. If there is an edge between $v$ and $w$, erase it.
 2. If trere is no edge between $v$ and $w$, add it.
 
@@ -14,7 +14,7 @@ To *flip* between two set A, B is that for any vertices $v \in A$ and $w \in B$:
 You are the **Flipper**.
 **Flipper** wins if the **Runner** is isolated.
 
-It is know that **Flipper** must win this game if the game lasts sufficiently long.
+It is known that **Flipper** must win this game if the game lasts sufficiently long.
 The Goal is to win **ASAP**.
 
 
