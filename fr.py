@@ -76,29 +76,34 @@ class RunnerGame:
             return self.partition_and_flip()
         
         # Let player pick two partitions to flip
-        flip_input = input("Choose two partitions to flip (e.g., 1,2): ")
-        try:
-            p1, p2 = [int(x.strip()) - 1 for x in flip_input.split(",")]
-            if p1 not in range(3) or p2 not in range(3) or p1 == p2:
-                print("Invalid partition choices. Please try again.")
-                return self.partition_and_flip()
-        except ValueError:
-            print("Invalid input format. Please enter two partition numbers separated by a comma.")
-            return self.partition_and_flip()
-        
-        # Flip edges between selected partitions
-        partition_A, partition_B = partitions[p1], partitions[p2]
-        for v1 in partition_A:
-            for v2 in partition_B:
-                if self.graph_0.has_edge(v1, v2):
-                    self.graph.remove_edge(v1, v2)
-                else:
-                    self.graph.add_edge(v1, v2)
-        
-        self.display_graph()
+        while True:
+            flip_input = input("Choose two partitions to flip (e.g., 1,2). If you want to end flipping, type 'end'.: ")
+            if flip_input == 'end':
+                break
+            else:
+                try:
+                    p1, p2 = [int(x.strip()) - 1 for x in flip_input.split(",")]
+                    if p1 not in range(3) or p2 not in range(3):
+                        print("Invalid partition choices. Please try again.")
+                        return self.partition_and_flip()
+                except ValueError:
+                    print("Invalid input format. Please enter two partition numbers separated by a comma.")
+                    return self.partition_and_flip()
+                
+                # Flip edges between selected partitions
+                partition_A, partition_B = partitions[p1], partitions[p2]
+                for v1 in partition_A:
+                    for v2 in partition_B:
+                        if v1 != v2: # Igrnore(avoid) the error caused by being v1==v2 in the case of flipping between the same parition. 
+                            if self.graph.has_edge(v1, v2):
+                                self.graph.remove_edge(v1, v2)
+                            else:
+                                self.graph.add_edge(v1, v2)
+                # Dislpay flipped graphs by each flip.
+                self.display_graph()
 
     def move_runner(self):
-        # Move Runner to a random connected vertex, if any
+        # Move Runner to a connected vertex of maximum neighbors
         self.neighbors = list(self.graph_previous.neighbors(self.runner_position_previous))
         max_degree = 0
         for neighbor in self.neighbors:
