@@ -49,12 +49,30 @@ class RunnerGame:
         axes[2].set_title(r"Current graph $G_i$")
         
         plt.show()
+        
+    def classify_edges(self, A, B):
+        have_edge = []
+        no_edge = []
 
-    def partition_and_flip(self):
+        # Iterate over all pairs of vertices (one from A, one from B)
+        if A == B:
+            have_edge = list(self.graph.subgraph(A).edges())
+            no_edge = list(nx.non_edges(self.graph.subgraph(A)))
+        else: 
+            for v1 in A:
+                for v2 in B:
+                    if self.graph.has_edge(v1, v2):  # Check if an edge exists between v1 and v2
+                        have_edge.append((v1, v2))  # Add to have_edge if edge exists
+                    else:
+                        no_edge.append((v1, v2))    # Add to no_edge if no edge exists
+
+        return have_edge, no_edge
+
+    def give_partition(self):
         print("Please partition the vertices into three groups.")
         
         # Get user input for each partition
-        partitions = []
+        self.partitions = []
         for i in range(3):
             partition_input = input(f"Enter vertices for Partition {i+1} as comma-separated values (e.g., 0,1): ")
             try:
@@ -63,18 +81,19 @@ class RunnerGame:
                 # Validate that each vertex is within the range and not duplicated
                 if any(v not in self.vertices for v in partition):
                     print("Invalid vertices. Please enter vertices between 0 and 5.")
-                    return self.partition_and_flip()  # Restart this step on invalid input
-                partitions.append(partition)
+                    return self.give_partition()  # Restart this step on invalid input
+                self.partitions.append(partition)
             except ValueError:
                 print("Invalid input format. Please enter integers separated by commas.")
-                return self.partition_and_flip()
+                return self.give_partition()
 
         # Ensure all vertices are uniquely partitioned
-        all_vertices = [v for partition in partitions for v in partition]
+        all_vertices = [v for partition in self.partitions for v in partition]
         if len(all_vertices) != len(set(all_vertices)):
             print("Vertices should not be in more than one partition. Please try again.")
-            return self.partition_and_flip()
+            return self.give_partition()
         
+    def flip(self):
         # Let player pick two partitions to flip
         while True:
             flip_input = input("Choose two partitions to flip (e.g., 1,2). If you want to end flipping, type 'end'.: ")
@@ -85,21 +104,19 @@ class RunnerGame:
                     p1, p2 = [int(x.strip()) - 1 for x in flip_input.split(",")]
                     if p1 not in range(3) or p2 not in range(3):
                         print("Invalid partition choices. Please try again.")
-                        return self.partition_and_flip()
+                        return self.flip()
                 except ValueError:
                     print("Invalid input format. Please enter two partition numbers separated by a comma.")
-                    return self.partition_and_flip()
+                    return self.flip()
                 
                 # Flip edges between selected partitions
-                partition_A, partition_B = partitions[p1], partitions[p2]
-                for v1 in partition_A:
-                    for v2 in partition_B:
-                        if v1 != v2: # Igrnore(avoid) the error caused by being v1==v2 in the case of flipping between the same parition. 
-                            if self.graph.has_edge(v1, v2):
-                                self.graph.remove_edge(v1, v2)
-                            else:
-                                self.graph.add_edge(v1, v2)
-                # Dislpay flipped graphs by each flip.
+                partition_A, partition_B = self.partitions[p1], self.partitions[p2]
+                has_edge, no_edge = self.classify_edges(partition_A, partition_B)
+                for has_edge_tuple in has_edge:
+                    self.graph.remove_edge(*has_edge_tuple)
+                for no_edge_tuple in no_edge:
+                    self.graph.add_edge(*no_edge_tuple)
+                    
                 self.display_graph()
 
     def move_runner(self):
@@ -115,7 +132,8 @@ class RunnerGame:
     def play_game(self):
         # Main game loop
         while True:
-            self.partition_and_flip()
+            self.give_partition()
+            self.flip()
             self.move_runner()
             print(f"Runner moved to vertex {self.runner_position}")
             self.display_graph()

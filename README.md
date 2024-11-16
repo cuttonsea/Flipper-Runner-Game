@@ -27,6 +27,19 @@ Use the indices of vertices you have observed in the dispay shown.
 Declare each set of partitions by splitting these indices by comma(,).
 
 ## Step 3. Pick two sets of the partition you want to *flip*.
-Then Runner will move its position to one of the neighbor of its current position in $G_{i-1} which has the largest number of neighbors in $G_i$ automatically.
-But if Runner is stuck, You, the Flipper wins, and the game will terminate.
+You can modify the initial graph $G_0$ by *flipping*. 
+Once you declare the partition of the vertex sets, you can flip more than once between two sets. Also it is possible to flip between same partition.
 
+
+## Step 4. Runner moves.
+Then Runner will move its position to one of the neighbor of its current position in $G_{i-1}$ which has the largest number of neighbors in $G_i$ automatically.
+But if Runner is stuck, you, the Flipper wins, and the game will terminate.
+
+---
+---
+
+## Theoretical preliminaries and some Known facts
+Fix $r \in \mathbb{N} \cup \{\infty\}$. The *radius-r flip-width* of a graph $G$, denoted by $\rm{fw}_r (G)$, is the smallest number $k \in \mathbb{N}$ such that the **flipper** has a winning strategy in the flipper game of radius $r$ and width $k$ on $G$.
+
+It is widely known that it is hard to construct a graph $G$ so that that its flip-width $\rm{fw}_r(G)$ is large.
+Also, there is somehow 'rough'(*in my personal opinion...*) upper bound for $\rm{fw}_r(G)$. (see the chapter 5 of https://arxiv.org/pdf/2302.00352) Tightening this bound will be a curious research.
