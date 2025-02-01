@@ -253,12 +253,7 @@ export default function RunnerGameExample() {
             value={numVertices}
             onChange={(e) => {
               const val = parseInt(e.target.value, 10);
-              // 3보다 작으면 3으로 고정
-              if (val < 3) {
-                setNumVertices(3);
-              } else {
-                setNumVertices(val);
-              }
+              setNumVertices(val);
             }}
             style={{ marginLeft: 8 }}
           />
